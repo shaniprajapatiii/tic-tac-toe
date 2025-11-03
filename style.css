@@ -1,0 +1,128 @@
+/* General Layout */
+body {
+  background: radial-gradient(circle at top left, #2c3e50, #000);
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Container */
+.container {
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 1.2s ease;
+  width: 90%;
+  max-width: 450px;
+}
+
+/* Title */
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  margin-bottom: 1em;
+  color: #00e6ff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #00e6ff;
+  word-wrap: break-word;
+}
+
+/* Game Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 1 / 1; /* Keeps it perfectly square */
+  justify-content: center;
+  margin: 0 auto;
+  gap: 10px; /* 💡 Reduced gap for desktop */
+}
+
+/* Cells */
+.cell {
+  background: linear-gradient(145deg, #1f1f1f, #292929);
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 255, 255, 0.3),
+              inset 0 0 10px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  font-size: clamp(2rem, 8vw, 3rem);
+  color: #00e6ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00e6ff, inset 0 0 10px #00e6ff;
+}
+
+/* Player Colors */
+.x {
+  color: #ff4b5c;
+  text-shadow: 0 0 15px #ff4b5c;
+  animation: pop 0.3s ease;
+}
+
+.o {
+  color: #00e6ff;
+  text-shadow: 0 0 15px #00e6ff;
+  animation: pop 0.3s ease;
+}
+
+/* Status */
+.status {
+  margin-top: 1.2em;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  text-shadow: 0 0 8px #00e6ff;
+}
+
+/* Restart Button */
+button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #00e6ff, #0099ff);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  cursor: pointer;
+  box-shadow: 0 0 10px #00e6ff;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #00e6ff;
+}
+
+/* Animations */
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 📱 Responsive Tweaks */
+@media (max-width: 768px) {
+  .board {
+    gap: 5vw; /* More gap for smaller/touch devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 320px;
+  }
+  .cell {
+    border-radius: 15px;
+    font-size: 2rem;
+  }
+}
