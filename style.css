@@ -1,128 +1,421 @@
-/* General Layout */
+:root {
+   --bg: #000000;
+   --panel: #0b0b0b;
+   --accent: #ffd54d;
+   --muted: #9aa5b1;
+   --x-color: #ff6b6b;
+   --o-color: #66ffa6;
+}
+
+* {
+   box-sizing: border-box
+}
+
+html,
 body {
-  background: radial-gradient(circle at top left, #2c3e50, #000);
-  font-family: "Poppins", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
+   height: 100%;
+   margin: 0
 }
 
-/* Container */
-.container {
-  text-align: center;
-  color: #fff;
-  animation: fadeIn 1.2s ease;
-  width: 90%;
-  max-width: 450px;
+body {
+   font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+   background:
+      radial-gradient(circle at top, rgba(255, 213, 77, 0.08), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(102, 255, 166, 0.08), transparent 24%),
+      var(--bg);
+   color: #e6eef6;
+   -webkit-font-smoothing: antialiased;
 }
 
-/* Title */
-h1 {
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  margin-bottom: 1em;
-  color: #00e6ff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px #00e6ff;
-  word-wrap: break-word;
+/* App shell */
+.app {
+   max-width: 980px;
+   margin: 18px auto;
+   padding: 14px;
 }
 
-/* Game Board */
+.app-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 14px;
+   padding: 12px 14px;
+   border: 1px solid rgba(255, 255, 255, 0.05);
+   border-radius: 14px;
+   background: rgba(255, 255, 255, 0.03);
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35)
+}
+
+.title {
+   font-size: 1.4rem;
+   margin: 0;
+   color: var(--accent);
+   font-weight: 700
+}
+
+.controls {
+   display: flex;
+   gap: 8px
+}
+
+.btn {
+   background: rgba(255, 255, 255, 0.04);
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   color: #f3f7fb;
+   padding: 8px 12px;
+   border-radius: 8px;
+   cursor: pointer
+}
+
+.btn.primary {
+   background: linear-gradient(90deg, var(--accent), #ffa726);
+   color: #071019;
+   border: none
+}
+
+.btn.secondary {
+   border-style: solid;
+   background: rgba(255, 255, 255, 0.02)
+}
+
+/* Layout */
+.main {
+   display: grid;
+   grid-template-columns: minmax(0, 1.35fr) 260px;
+   gap: 18px;
+   align-items: start
+}
+
+.board-area {
+   grid-column: 1;
+   grid-row: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-width: 0
+}
+
+.stats-panel {
+   grid-column: 2;
+   grid-row: 1;
+   min-width: 0
+}
+
+.panel {
+   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+   padding: 14px;
+   border-radius: 12px;
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35)
+}
+
+.players {
+   display: flex;
+   flex-direction: column;
+   gap: 12px
+}
+
+.player {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   padding: 8px;
+   border-radius: 10px;
+   background: rgba(0, 0, 0, 0.22);
+   border: 1px solid rgba(255, 255, 255, 0.05)
+}
+
+.mark {
+   width: 44px;
+   height: 44px;
+   border-radius: 8px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-weight: 700
+}
+
+#playerX .mark {
+   background: linear-gradient(90deg, var(--x-color), #ffb4ab);
+   color: #2b0b08
+}
+
+#playerO .mark {
+   background: linear-gradient(90deg, var(--o-color), #d4ffbd);
+   color: #06260b
+}
+
+.meta .name {
+   font-weight: 600
+}
+
+.meta .score {
+   font-size: 0.9rem;
+   color: var(--muted)
+}
+
+.status {
+   margin-top: 12px;
+   color: #e8edf2;
+   font-size: 0.95rem;
+   padding: 10px 12px;
+   border-radius: 10px;
+   background: rgba(0, 0, 0, 0.22);
+   border: 1px solid rgba(255, 255, 255, 0.05)
+}
+
+.match-stats {
+   margin-top: 12px;
+   color: #e8edf2;
+   font-size: 0.95rem;
+   padding: 10px 12px;
+   border-radius: 10px;
+   background: rgba(0, 0, 0, 0.22);
+   border: 1px solid rgba(255, 255, 255, 0.05)
+}
+
+/* Board */
+
 .board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  aspect-ratio: 1 / 1; /* Keeps it perfectly square */
-  justify-content: center;
-  margin: 0 auto;
-  gap: 10px; /* 💡 Reduced gap for desktop */
+   display: grid;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   grid-template-rows: repeat(3, minmax(0, 1fr));
+   gap: 12px;
+   padding: 18px;
+   width: min(100%, 440px);
+   aspect-ratio: 1;
+   border-radius: 16px;
+   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45)
 }
 
-/* Cells */
 .cell {
-  background: linear-gradient(145deg, #1f1f1f, #292929);
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 255, 255, 0.3),
-              inset 0 0 10px rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  font-size: clamp(2rem, 8vw, 3rem);
-  color: #00e6ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
-  user-select: none;
+   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   border-radius: 14px;
+   font-size: 2.6rem;
+   color: #fff;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   min-width: 0;
+   min-height: 0;
+   transition: box-shadow .12s ease, transform .08s ease, background .12s ease
+}
+
+.cell:active {
+   transform: scale(.98)
 }
 
 .cell:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00e6ff, inset 0 0 10px #00e6ff;
+   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35)
 }
 
-/* Player Colors */
-.x {
-  color: #ff4b5c;
-  text-shadow: 0 0 15px #ff4b5c;
-  animation: pop 0.3s ease;
+.cell.x {
+   color: var(--x-color);
+   font-weight: 800
 }
 
-.o {
-  color: #00e6ff;
-  text-shadow: 0 0 15px #00e6ff;
-  animation: pop 0.3s ease;
+.cell.o {
+   color: var(--o-color);
+   font-weight: 800
 }
 
-/* Status */
-.status {
-  margin-top: 1.2em;
-  font-size: clamp(1.2rem, 4vw, 1.5rem);
-  text-shadow: 0 0 8px #00e6ff;
+.cell.win {
+   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+   transform: scale(1.04)
 }
 
-/* Restart Button */
-button {
-  margin-top: 20px;
-  padding: 10px 25px;
-  background: linear-gradient(135deg, #00e6ff, #0099ff);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-size: clamp(1rem, 3.5vw, 1.2rem);
-  cursor: pointer;
-  box-shadow: 0 0 10px #00e6ff;
-  transition: all 0.3s ease;
+.app-footer {
+   text-align: center;
+   margin-top: 18px;
+   color: #edf3f7;
+   padding: 14px;
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   border-radius: 14px;
+   background: rgba(255, 255, 255, 0.03);
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35)
 }
 
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #00e6ff;
+.footer-links {
+   display: inline-flex;
+   gap: 12px;
+   flex-wrap: wrap;
+   justify-content: center;
 }
 
-/* Animations */
-@keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1.2); opacity: 1; }
+.footer-links a {
+   color: var(--accent);
+   text-decoration: none;
+   font-weight: 600
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+.footer-links a:hover {
+   text-decoration: underline
 }
 
-/* 📱 Responsive Tweaks */
-@media (max-width: 768px) {
-  .board {
-    gap: 5vw; /* More gap for smaller/touch devices */
-  }
+/* Modal */
+.modal {
+   position: fixed;
+   inset: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: rgba(0, 0, 0, 0.6);
+   backdrop-filter: blur(4px);
 }
 
-@media (max-width: 480px) {
-  .container {
-    max-width: 320px;
-  }
-  .cell {
-    border-radius: 15px;
-    font-size: 2rem;
-  }
+.modal-panel {
+   background: var(--panel);
+   padding: 18px;
+   border-radius: 12px;
+   width: 340px;
+   border: 1px solid rgba(255, 255, 255, 0.08);
+   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5)
+}
+
+.modal-panel h2 {
+   margin: 0 0 12px 0
+}
+
+.modal-panel label {
+   display: block;
+   margin-bottom: 10px;
+   color: var(--muted)
+}
+
+.modal-panel input {
+   width: 100%;
+   padding: 8px;
+   border-radius: 8px;
+   border: 1px solid rgba(255, 255, 255, 0.04);
+   background: transparent;
+   color: inherit
+}
+
+.modal-actions {
+   display: flex;
+   gap: 8px;
+   justify-content: flex-end;
+   margin-top: 12px
+}
+
+/* focus */
+.cell:focus {
+   outline: 3px solid rgba(255, 213, 77, 0.12)
+}
+
+/* Responsive */
+@media (max-width:900px) {
+   .main {
+      grid-template-columns: 1fr;
+      gap: 14px
+   }
+
+   .board-area,
+   .stats-panel {
+      grid-column: auto;
+      grid-row: auto
+   }
+
+   .app-header {
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch
+   }
+
+   .controls {
+      flex-wrap: wrap;
+      width: 100%
+   }
+
+   .controls .btn {
+      flex: 1 1 140px
+   }
+
+   .board {
+      width: min(100%, 420px)
+   }
+
+   .panel,
+   .app-footer,
+   .board {
+      width: 100%
+   }
+
+   .stats-panel {
+      order: 2
+   }
+
+   .board-area {
+      order: 1
+   }
+}
+
+@media (max-width:420px) {
+   .app {
+      margin: 10px auto;
+      padding: 10px
+   }
+
+   .app-header,
+   .panel,
+   .app-footer {
+      border-radius: 12px;
+      padding: 12px
+   }
+
+   .title {
+      font-size: 1.05rem
+   }
+
+   .controls {
+      gap: 6px
+   }
+
+   .btn {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem
+   }
+
+   .board {
+      width: min(100%, 360px);
+      gap: 8px;
+      padding: 12px;
+      border-radius: 14px
+   }
+
+   .cell {
+      font-size: 1.85rem;
+      border-radius: 10px
+   }
+
+   .player {
+      padding: 7px;
+      gap: 10px
+   }
+
+   .mark {
+      width: 40px;
+      height: 40px;
+      font-size: 0.95rem
+   }
+
+   .status,
+   .match-stats {
+      padding: 9px 10px;
+      font-size: 0.9rem
+   }
+
+   .footer-links {
+      gap: 8px
+   }
+
+   .footer-links a {
+      font-size: 0.95rem
+   }
 }

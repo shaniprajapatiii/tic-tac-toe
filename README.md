@@ -1,16 +1,32 @@
-Tic Tac Toe Game
-=================
-This is a simple implementation of the classic Tic Tac Toe game using JavaScript. The game allows two players to take turns marking spaces in a 3x3 grid, with the goal of getting three of their marks in a row (horizontally, vertically, or diagonally).
+Tic Tac Toe — Modern
+======================
+
+An enhanced Tic Tac Toe web game with a modern UI and additional features.
 
 Features
 --------
-- Two-player mode
-- Simple and intuitive interface
-- Restart game option
+- Player name entry before starting the game
+- In-page score tracking (per session)
+- Undo last move
+- New Game and Reset Scores controls
+- Hover preview showing the next mark
+- Winning-line highlight and subtle animations
 
-How to Play
------------
-1. Players take turns clicking on empty squares in the grid.
-2. The first player to get three marks in a row wins the game.
-3. If all squares are filled and no player has three in a row, the game ends in a draw.
-4. Click the "Restart" button to start a new game.
+How to Run
+----------
+Open `index.html` in your browser. No build tools required — just serve or open the file.
+
+Controls
+--------
+- Click "New Game" to enter or change player names.
+- Click board cells to play a move.
+- Click "Undo" to revert the last move.
+- Click "Reset Scores" to clear the win counters.
+
+Files
+-----
+- `index.html` — main UI and player-name modal
+- `style.css` — modern responsive styling
+- `script.js` — game logic (names, scores, undo, previews)
+
+Enjoy! If you want extra features (AI opponent, localStorage persistence), tell me and I can add them.
